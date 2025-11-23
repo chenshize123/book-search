@@ -1,45 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../config/supabase';
 import './BookDetailPage.css';
 
 function BookDetailPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const loadBookDetail = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('books')
+          .select(`
+            *,
+            categories (
+              id,
+              category_name
+            ),
+            book_stocks (
+              stock_count,
+              location
+            )
+          `)
+          .eq('id', id)
+          .single();
+
+        if (error) throw error;
+        setBook(data);
+      } catch (error) {
+        console.error('加载图书详情失败:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadBookDetail();
   }, [id]);
-
-  const loadBookDetail = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('books')
-        .select(`
-          *,
-          categories (
-            id,
-            category_name
-          ),
-          book_stocks (
-            stock_count,
-            location
-          )
-        `)
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-      setBook(data);
-    } catch (error) {
-      console.error('加载图书详情失败:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (

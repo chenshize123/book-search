@@ -10,47 +10,47 @@ function CategoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const loadCategoryBooks = async () => {
+      setLoading(true);
+      try {
+        // 加载分类信息
+        const { data: categoryData, error: categoryError } = await supabase
+          .from('categories')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (categoryError) throw categoryError;
+        setCategory(categoryData);
+
+        // 加载该分类下的图书
+        const { data: booksData, error: booksError } = await supabase
+          .from('books')
+          .select(`
+            *,
+            categories (
+              id,
+              category_name
+            ),
+            book_stocks (
+              stock_count,
+              location
+            )
+          `)
+          .eq('category_id', id)
+          .order('created_at', { ascending: false });
+
+        if (booksError) throw booksError;
+        setBooks(booksData || []);
+      } catch (error) {
+        console.error('加载分类图书失败:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadCategoryBooks();
   }, [id]);
-
-  const loadCategoryBooks = async () => {
-    setLoading(true);
-    try {
-      // 加载分类信息
-      const { data: categoryData, error: categoryError } = await supabase
-        .from('categories')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (categoryError) throw categoryError;
-      setCategory(categoryData);
-
-      // 加载该分类下的图书
-      const { data: booksData, error: booksError } = await supabase
-        .from('books')
-        .select(`
-          *,
-          categories (
-            id,
-            category_name
-          ),
-          book_stocks (
-            stock_count,
-            location
-          )
-        `)
-        .eq('category_id', id)
-        .order('created_at', { ascending: false });
-
-      if (booksError) throw booksError;
-      setBooks(booksData || []);
-    } catch (error) {
-      console.error('加载分类图书失败:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="category-page">
