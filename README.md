@@ -96,7 +96,9 @@ CREATE TABLE book_stocks (
    - 所有表对匿名用户开放 SELECT 权限
    - SQL 脚本中已包含 RLS 配置，直接执行即可
 
-4. 创建 `.env.local` 文件：
+4. 创建 `.env.local` 文件（可选）：
+   - Supabase API 信息已内置在代码中，本地开发可以直接运行
+   - 如需使用不同的 Supabase 项目，可创建 `.env.local` 文件：
 ```env
 REACT_APP_SUPABASE_URL=your_supabase_url
 REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -123,10 +125,12 @@ npm run build
 3. 配置构建设置：
    - Build command: `npm run build`
    - Publish directory: `build`
-4. 添加环境变量：
-   - `REACT_APP_SUPABASE_URL`
-   - `REACT_APP_SUPABASE_ANON_KEY`
-5. 部署
+4. **环境变量（可选）**：
+   - Supabase API 信息已内置在代码中，可以直接部署
+   - 如需使用不同的 Supabase 项目，可添加环境变量：
+     - `REACT_APP_SUPABASE_URL`
+     - `REACT_APP_SUPABASE_ANON_KEY`
+5. 点击 "Deploy site" 开始部署
 
 ## 页面说明
 

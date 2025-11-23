@@ -23,16 +23,11 @@ npm install
 - RLS 策略（允许匿名用户读取数据）
 - 示例分类数据
 
-### 3. 获取 API 密钥
+### 3. 配置环境变量（可选）
 
-1. 在 Supabase 控制台中，进入 **Settings** > **API**
-2. 复制以下信息：
-   - **Project URL** (例如: `https://xxxxx.supabase.co`)
-   - **anon public** key
+**注意**：Supabase API 信息已内置在代码中，可以直接运行项目，无需配置环境变量。
 
-### 4. 配置环境变量
-
-在项目根目录创建 `.env.local` 文件：
+如需使用不同的 Supabase 项目，可在项目根目录创建 `.env.local` 文件：
 
 ```env
 REACT_APP_SUPABASE_URL=你的_Project_URL
@@ -58,7 +53,9 @@ REACT_APP_SUPABASE_ANON_KEY=你的_anon_public_key
    - 点击 "Insert" 添加库存记录
    - 填写 `book_id`（选择对应的图书）、`stock_count`（库存数量）、`location`（存放位置）
 
-## 第四步：运行项目
+## 第四步：运行项目（无需配置环境变量）
+
+由于 Supabase API 信息已内置在代码中，您可以直接运行项目：
 
 ```bash
 npm start
@@ -106,10 +103,12 @@ npm start
 3. 配置构建设置：
    - Build command: `npm run build`
    - Publish directory: `build`
-4. 添加环境变量：
-   - `REACT_APP_SUPABASE_URL`
-   - `REACT_APP_SUPABASE_ANON_KEY`
-5. 点击 "Deploy site"
+4. **环境变量（可选）**：
+   - Supabase API 信息已内置在代码中，可以直接部署
+   - 如需使用不同的 Supabase 项目，可添加环境变量：
+     - `REACT_APP_SUPABASE_URL`
+     - `REACT_APP_SUPABASE_ANON_KEY`
+5. 点击 "Deploy site" 开始部署
 
 部署完成后，您的应用就可以在互联网上访问了！
 
